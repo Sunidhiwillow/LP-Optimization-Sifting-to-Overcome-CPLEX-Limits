@@ -40,16 +40,16 @@ Subject to  A^T y >= c
 ```
 
 1. **Initialize**  start with a feasible working set W of columns (here, the first 500, chosen because they were verified to yield a feasible solution).
-2. **Solve restricted primal/dual** — solve Maximize c_W^T x_W, s.t. A_W x_W <= b` using CPLEX (via docplex) to get x_W* and the dual prices pi*.
-3. **Price out excluded columns** — for every column `j` not in `W`, check whether `pi*^T A_j < c_j`. Columns that fail this dual-feasibility condition are candidates to enter the working set.
+2. **Solve restricted primal/dual** solve Maximize c_W^T x_W, s.t. A_W x_W <= b` using CPLEX (via docplex) to get x_W* and the dual prices pi*.
+3. **Price out excluded columns** for every column `j` not in `W`, check whether `pi*^T A_j < c_j`. Columns that fail this dual-feasibility condition are candidates to enter the working set.
 4. **Select and add** rank candidates using the **lambda pricing rule** (chosen per the reference paper for faster convergence) and add up to t = 100 of the most attractive columns to W.
 5. **Repeat** until no candidate columns remain at that point W supports a solution that is optimal for the *entire* original problem, not just the subset.
-6. **Reconstruct and verify** — set all variables outside the final W to 0, compute the objective value, and re-check every constraint against the full A, b (with a 1e-9 tolerance for floating-point error) to confirm feasibility.
+6. **Reconstruct and verify** set all variables outside the final W to 0, compute the objective value, and re-check every constraint against the full A, b (with a 1e-9 tolerance for floating-point error) to confirm feasibility.
 
 ## Implementation notes
 
 - **Data extraction**: the raw .lp file is parsed manually into `A`, `b`, `c` matrices (500 constraints × 5000 variables). One missing decision variable (`x_513`) in the source file was assumed to have zero cost.
-- **Vectorization**: plain matrix multiplication was used rather than fast/sparse vectorization — the problem size made this fast enough without added complexity.
+- **Vectorization**: plain matrix multiplication was used rather than fast/sparse vectorization - the problem size made this fast enough without added complexity.
 - **Pricing rule**: lambda pricing was used over alternatives, per the reference paper's guidance on convergence speed.
 - **Batch size t**: tested at different values, larger t converges in fewer iterations but retains more columns in the final set; smaller t takes more iterations but keeps the working set leaner. t = 100 was used as a middle ground; the objective value was unaffected by this choice.
 - **Solvers used**: docplex with IBM CPLEX for both the primal and dual sub-problems at each iteration.
@@ -58,7 +58,7 @@ Subject to  A^T y >= c
 
 - Python 3
 - numpy
-- docplex (with a working CPLEX installation/license — Community Edition is sufficient since the working set never exceeds ~900 variables)
+- docplex (with a working CPLEX installation/license - Community Edition is sufficient since the working set never exceeds ~900 variables)
 
 ## Repository contents
 
