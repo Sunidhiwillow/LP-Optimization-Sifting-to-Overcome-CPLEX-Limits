@@ -75,7 +75,7 @@ Subject to  A^T y >= c
 python Code.py
 ```
 
-Expects an input file `test1.lp` (500 constraints, 5000 variables) in the working directory. Writes a full log — including the iteration trace, final solution vector, and feasibility check — to `output.txt`.
+Expects an input file `test1.lp` (500 constraints, 5000 variables) in the working directory. Writes a full log including the iteration trace, final solution vector, and feasibility check to `output.txt`.
 
 ## Reference
 
