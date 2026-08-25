@@ -66,7 +66,7 @@ Subject to  A^T y >= c
 |---|---|
 | Code.py | Full implementation - data parsing, sifting loop, and feasibility checker |
 | Approach.docx | Write-up of the approach and design decisions |
-| output.txt | Full run log: iteration-by-iteration set growth, final solution vector, objective value, and feasibility check |
+| output.txt | Full run log: iteration by iteration set growth, final solution vector, objective value, and feasibility check |
 | Bixby-LargeScaleLinearProgramming-1992.pdf | Reference paper the sifting algorithm is adapted from |
 
 ## Running it
